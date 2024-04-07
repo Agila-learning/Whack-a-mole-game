@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Whack-a-Mole Game</title>
+    <style>
+        
+        .mole {
+            width: 50px;
+            height: 50px;
+            background-color: brown;
+            border: 1px solid black;
+            display: inline-block;
+            margin: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Whack-a-Mole Game</h1>
+    <p>Score: <span id="score">0</span></p>
+    <p>Time Left: <span id="time">30</span> seconds</p>
+    <div id="moles"></div>
+
+    <script>
+        let score = 0;
+        let timeLeft = 30;
+        let timerId;
+
+        function startGame() {
+            score = 0;
+            timeLeft = 30;
+            document.getElementById('score').textContent = score;
+            document.getElementById('time').textContent = timeLeft;
+            createMoles();
+            timerId = setInterval(countdown, 1000);
+        }
+
+        function createMoles() {
+            const molesContainer = document.getElementById('moles');
+            molesContainer.innerHTML = '';
+            for (let i = 0; i < 9; i++) {
+                const mole = document.createElement('div');
+                mole.classList.add('mole');
+                mole.addEventListener('click', whackMole);
+                molesContainer.appendChild(mole);
+            }
+        }
+
+        function whackMole() {
+            score++;
+            document.getElementById('score').textContent = score;
+        }
+
+        function countdown() {
+            timeLeft--;
+            document.getElementById('time').textContent = timeLeft;
+            if (timeLeft === 0) {
+                clearInterval(timerId);
+                alert('Game over! Your final score is ' + score);
+                document.getElementById('moles').innerHTML = '';
+            }
+        }
+
+        startGame(); 
+    </script>
+</body>
+</html>
